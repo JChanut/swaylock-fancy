@@ -10,7 +10,7 @@ effect=(-filter Gaussian -resize 20% -define "filter:sigma=1.5" -resize 500.5%)
 # default system sans-serif font
 font=$(convert -list font | awk "{ a[NR] = \$2 } /family: $(fc-match sans -f "%{family}\n")/ { print a[NR-1]; exit }")
 desktop=""
-swaylock_cmd=(swaylock)
+swaylock_cmd=(swaylock --daemonize)
 
 # Need these to capture multiple monitors' screenshots
 declare -a outputs
@@ -143,7 +143,7 @@ done
 # If invoked with -d/--desktop, we'll attempt to minimize all windows (ie. show
 # the desktop) before locking.
 ${desktop} ${desktop:+-k on}
-
+echo ${swaylock_cmd[@]}
 # try to use swaylock with prepared parameters
 if ! "${swaylock_cmd[@]}" "${param[@]}" >/dev/null 2>&1; then
     # We have failed, lets get back to stock one
